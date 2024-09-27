@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 // Navigate to the Search Screen when the search bar is tapped
-                Get.to(() => const SearchScreen());
+                Get.to(() => SearchScreen());
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -64,12 +64,15 @@ class HomeScreen extends StatelessWidget {
                     child: Card(
                       margin: const EdgeInsets.all(10),
                       child: ListTile(
-                        leading: Image.network(
-                          movie.show?.image?.medium ??
-                              "https://www.shutterstock.com/image-vector/no-image-available-sign-absence-260nw-373243873.jpg",
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
+                        leading: AspectRatio(
+                          aspectRatio: 1.0,
+                          child: Image.network(
+                            movie.show?.image?.medium ??
+                                "https://www.shutterstock.com/image-vector/no-image-available-sign-absence-260nw-373243873.jpg",
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         title: Text(movie.show?.name ?? 'Not Available'),
                         subtitle: Text(movie.show?.summary ?? 'Not Available'),

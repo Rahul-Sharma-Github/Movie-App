@@ -5,7 +5,7 @@ import '../../home/models/movie_model.dart';
 class MovieDetailsScreen extends StatelessWidget {
   final Movie movie;
 
-  MovieDetailsScreen({super.key, required this.movie});
+  const MovieDetailsScreen({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {

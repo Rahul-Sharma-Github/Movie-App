@@ -10,6 +10,8 @@ class MainScreen extends StatelessWidget {
 
   final MainScreenController mainScreenController =
       Get.put(MainScreenController());
+
+  // List of Widgets to show according to currentIndex
   final List<Widget> _screens = [
     HomeScreen(),
     SearchScreen(),
@@ -20,11 +22,12 @@ class MainScreen extends StatelessWidget {
     return Obx(() {
       return Scaffold(
         body: _screens[mainScreenController
-            .currentIndex.value], // Display the selected screen
+            .currentIndex.value], // Displays the selected screen
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: mainScreenController.currentIndex.value,
           onTap: (index) {
-            mainScreenController.currentIndex.value = index; // Change the index
+            // Changing the index on tap
+            mainScreenController.currentIndex.value = index;
           },
           items: const [
             BottomNavigationBarItem(

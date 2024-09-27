@@ -3,25 +3,18 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../models/movie_model.dart';
+import '../../home/models/movie_model.dart';
 
-class MovieController extends GetxController {
+class MovieSearchController extends GetxController {
   final movies = <Movie>[].obs;
   var isLoading = true.obs;
 
-  @override
-  void onInit() {
-    // fetching on initialisation of Controller
-    fetchMovies();
-    super.onInit();
-  }
-
-  // Method to fetch all movies
-  Future<void> fetchMovies() async {
+  // Method to search and fetch movies
+  Future<void> searchAndFetchMovies(String query) async {
     try {
       isLoading(true);
       final response = await http
-          .get(Uri.parse('https://api.tvmaze.com/search/shows?q=all'));
+          .get(Uri.parse('https://api.tvmaze.com/search/shows?q=$query'));
 
       if (response.statusCode == 200) {
         List<dynamic>? data = json.decode(response.body);

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../details/views/movie_details_screen.dart';
+import '../controllers/movie_search_controller.dart';
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+  SearchScreen({super.key});
+
+  final MovieSearchController movieSearchController =
+      Get.put(MovieSearchController());
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +30,51 @@ class SearchScreen extends StatelessWidget {
                 ),
               ),
               onSubmitted: (query) {
-                // You can handle search logic here
-                // e.g., filter movies based on the query or make an API request
-                debugPrint('Search query: $query');
+                // handling search logic here //
+                // filtering movies based on the query using API Endpoint
+                debugPrint('Search query is =  $query');
+                // Searching data using fetch
+                movieSearchController.searchAndFetchMovies(query);
               },
             ),
-            // You can add a ListView or GridView below to show search results
-            const Expanded(
-              child: Center(
-                child: Text(
-                  'Search for your favorite movies!',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+
+            // Movies List
+            Expanded(
+              child: Obx(() {
+                if (movieSearchController.isLoading.value) {
+                  return const Center(
+                      child: Text('Search for Amazing Movies !'));
+                }
+
+                return ListView.builder(
+                  // shrinkWrap: true,
+                  itemCount: movieSearchController.movies.length,
+                  itemBuilder: (context, index) {
+                    final movie = movieSearchController.movies[index];
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigate to the Details Screen
+                        Get.to(() => MovieDetailsScreen(movie: movie));
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.all(10),
+                        child: ListTile(
+                          leading: Image.network(
+                            movie.show?.image?.medium ??
+                                "https://www.shutterstock.com/image-vector/no-image-available-sign-absence-260nw-373243873.jpg",
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                          title: Text(movie.show?.name ?? 'Not Available'),
+                          subtitle:
+                              Text(movie.show?.summary ?? 'Not Available'),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }),
             ),
           ],
         ),
